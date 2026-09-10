@@ -3,6 +3,7 @@ services:
     name: overtime-ecom
     runtime: static
     buildCommand: echo "No build step needed — plain HTML/CSS/JS"
+    startCommand: ""
     staticPublishPath: .
     routes:
       - type: rewrite
