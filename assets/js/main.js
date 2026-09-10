@@ -6,7 +6,8 @@
 
 /* ---------- Configurable variables (edit these) ---------- */
 const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyRg-g6PzdDgThndMEd5x1wKsZtRmFApkF308avmGFacMhn5002URGkt1RUgX24n5ArUQ/exec';
-const PIXEL_ID = 'PIXEL_ID_HERE';
+const PIXEL_ID = '27911627961853086';
+const CAPI_ACCESS_TOKEN = 'EAATzTbBM3VgBSRdDk8eX3ao56N74n1QeCtVc0ZCT8a9EmWwWnw7ds1normTJkLrKDpWbKNjGQ5AS4HqkZBGHGMUFKqP8cPVMRZC7ideiJABzNVjrABr9HEWMk0cxwwX2x2KiRv7PZBjMQxZCql1pu7DWYDzLeS3ZAxmFo4lB928fqydTjgJEQ7EwqvfndngfP6tAZDZD';
 
 /* ---------- Meta Pixel (injected if PIXEL_ID is replaced) ---------- */
 function loadPixel() {
@@ -26,6 +27,49 @@ function loadPixel() {
 function firePixelLead(productName) {
   if (PIXEL_ID === 'PIXEL_ID_HERE' || !PIXEL_ID || typeof fbq === 'undefined') return;
   fbq('track', 'Lead', { content_name: productName });
+}
+
+/* ---------- Conversions API (server-side) ---------- */
+async function fireCAPIEvent(userData, customData) {
+  try {
+    const payload = {
+      data: [{
+        event_name: 'Lead',
+        event_time: Math.floor(Date.now() / 1000),
+        action_source: 'website',
+        user_data: {
+          em: [hashString(userData.email || '')],
+          ph: userData.phone ? [hashString(userData.phone)] : [],
+          fn: userData.firstName ? [hashString(userData.firstName)] : [],
+          ln: userData.lastName ? [hashString(userData.lastName)] : [],
+          ct: userData.city ? [hashString(userData.city)] : []
+        },
+        custom_data: customData || {},
+        original_event_data: {
+          event_name: 'Lead',
+          event_time: Math.floor(Date.now() / 1000)
+        }
+      }]
+    };
+
+    await fetch(`https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${CAPI_ACCESS_TOKEN}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.debug('CAPI error:', err);
+  }
+}
+
+/* SHA-256 hash for user data (required by Facebook CAPI) */
+async function hashString(str) {
+  if (!str) return '';
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str.trim().toLowerCase());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 /* ---------- Sticky bottom CTA ---------- */
@@ -148,6 +192,18 @@ async function initOrderForm(productName) {
       msg.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك قريباً لتأكيد التوصيل.';
       form.reset();
       firePixelLead(productName);
+      /* Fire server-side CAPI event with user data for better matching */
+      const fullName = payload.full_name;
+      const nameParts = fullName.split(' ');
+      fireCAPIEvent(
+        {
+          phone: payload.phone,
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || '',
+          city: payload.city
+        },
+        { content_name: productName, currency: 'LYD', value: 199 }
+      );
     } catch (err) {
       msg.classList.add('err');
       msg.textContent = '⚠️ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.';
