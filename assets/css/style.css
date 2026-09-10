@@ -96,10 +96,19 @@ h1,h2,h3{line-height:1.35;font-weight:800}
   display:inline-block;background:var(--brand-light);color:var(--brand-dark);
   font-weight:800;font-size:.85rem;padding:6px 14px;border-radius:999px;margin-bottom:14px;
 }
-.hero h1{font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:12px;font-weight:900;line-height:1.2}
+.hero h1,.hero-headline{font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:12px;font-weight:900;line-height:1.2;font-family:'Amiri',serif}
 .hero .h-sub{font-size:clamp(1rem,3.4vw,1.15rem);max-width:520px;margin:0 auto 22px;color:var(--text-soft)}
 .hero-img-wrap{position:relative;max-width:480px;margin:18px auto 6px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
 .hero-img-wrap img{width:100%;aspect-ratio:1/1;object-fit:cover}
+
+/* Hero load-in animation */
+.hero-headline,.hero .h-sub,.hero-img-wrap,.price-row,.hero .btn-cta{animation:heroFadeUp .7s ease-out both}
+.hero .h-sub{animation-delay:.1s}
+.hero-img-wrap{animation-delay:.2s}
+.price-row{animation-delay:.35s}
+.hero .btn-cta{animation-delay:.45s}
+@keyframes heroFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.hero-headline,.hero .h-sub,.hero-img-wrap,.price-row,.hero .btn-cta{animation:none}}
 
 .price-row{display:flex;align-items:baseline;justify-content:center;gap:12px;margin:20px 0 22px}
 .price-sale{font-size:clamp(2rem,8vw,2.8rem);font-weight:900;color:var(--price);letter-spacing:-.02em}
