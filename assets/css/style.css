@@ -1,0 +1,313 @@
+/* ============================================================
+   ONTIME ECOM — Conversion-Focused Design System
+   RTL Arabic • Mobile-first • Ultra-lightweight
+   ============================================================ */
+
+/* ---------- Theme variables (overridden per product page) ---------- */
+:root{
+  /* Brand / accents - default ring (luxury) */
+  --brand:        #b76e79;   /* rose blush */
+  --brand-dark:   #94515c;
+  --brand-light:  #f9ebed;
+  --accent:       #e6b34e;   /* gold accent */
+  --bg:           #fffdfb;   /* cream background */
+  --bg-soft:      #faf3f0;
+  --card:         #ffffff;
+
+  /* Text */
+  --text:         #1a1618;
+  --text-soft:    #5a4d52;
+  --muted:        #9a8d92;
+
+  /* UI */
+  --border:       #eee0dd;
+  --shadow:       0 6px 20px rgba(43,35,38,.08);
+  --shadow-lg:    0 12px 40px rgba(43,35,38,.14);
+
+  /* Semantics */
+  --danger:       #d9534f;
+  --success:      #2e9e63;
+  --price:        #c0392b;
+
+  /* Layout */
+  --radius:       16px;
+  --radius-sm:    10px;
+  --container:    640px;
+  --cta-bg:       linear-gradient(135deg,#c2707c,#a95460);
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Cairo','Tajawal',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  direction:rtl;
+  text-align:right;
+  font-size:16px;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font-family:inherit;font-size:inherit}
+ul{list-style:none}
+section{padding:42px 0}
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 20px}
+
+/* ---------- Typography ---------- */
+h1,h2,h3{line-height:1.35;font-weight:800}
+.h-sub{color:var(--text-soft);font-weight:600}
+
+/* ---------- Buttons - Single CTA color everywhere ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:12px 26px;border:none;border-radius:var(--radius-sm);
+  font-weight:800;font-size:1.08rem;cursor:pointer;transition:.2s;
+  box-shadow:var(--shadow);text-align:center;
+}
+.btn-cta{
+  background:var(--cta-bg);color:#fff;width:100%;max-width:420px;
+  border:1px solid rgba(255,255,255,.25);
+}
+.btn-cta:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border:2px solid var(--brand);color:var(--brand)}
+.btn-ghost:hover{background:var(--brand-light)}
+
+/* ---------- Sticky top mini bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:9px 20px;display:flex;align-items:center;justify-content:space-between;
+}
+.topbar .brand{font-weight:800;color:var(--brand);font-size:1.02rem}
+.topbar .phone{
+  display:inline-flex;align-items:center;gap:6px;color:var(--text);
+  font-weight:700;font-size:.95rem;
+}
+.topbar .phone svg{width:18px;height:18px;fill:var(--success)}
+
+/* ---------- Hero ---------- */
+.hero{text-align:center;background:
+  radial-gradient(120% 90% at 50% 0%,var(--bg-soft) 0%,var(--bg) 60%);
+  padding:34px 0 40px}
+.hero-badge{
+  display:inline-block;background:var(--brand-light);color:var(--brand-dark);
+  font-weight:800;font-size:.85rem;padding:6px 14px;border-radius:999px;margin-bottom:14px;
+}
+.hero h1{font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:12px;font-weight:900;line-height:1.2}
+.hero .h-sub{font-size:clamp(1rem,3.4vw,1.15rem);max-width:520px;margin:0 auto 22px;color:var(--text-soft)}
+.hero-img-wrap{position:relative;max-width:480px;margin:18px auto 6px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
+.hero-img-wrap img{width:100%;aspect-ratio:1/1;object-fit:cover}
+
+.price-row{display:flex;align-items:baseline;justify-content:center;gap:12px;margin:20px 0 22px}
+.price-sale{font-size:clamp(2rem,8vw,2.8rem);font-weight:900;color:var(--price);letter-spacing:-.02em}
+.price-original{font-size:1.1rem;color:var(--muted);text-decoration:line-through}
+.price-label{font-weight:700;color:var(--text-soft)}
+
+/* ---------- Section headers ---------- */
+.sec-head{text-align:center;margin-bottom:28px}
+.sec-head h2{font-size:clamp(1.4rem,5vw,2rem);color:var(--brand-dark);font-weight:900}
+.sec-head p{color:var(--text-soft);max-width:520px;margin:8px auto 0}
+
+/* ---------- Problem → Solution (Product 2) ---------- */
+.ps-list{display:grid;gap:16px}
+.ps-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.ps-item h3{font-size:1.05rem;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.ps-item p{color:var(--text-soft);font-size:.98rem}
+.ps-item .ic{width:42px;height:42px;flex:none;border-radius:12px;background:var(--brand-light);color:var(--brand-dark);display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem}
+.ps-item.problem .ic{background:#fdecea;color:var(--danger)}
+.ps-item.solution .ic{background:#e7f6ee;color:var(--success)}
+
+/* Before/After comparison */
+.before-after{display:grid;gap:16px}
+@media(min-width:640px){.before-after{grid-template-columns:1fr 1fr}}
+.before-after .side{text-align:center}
+.before-after .label{
+  display:inline-block;font-size:.85rem;font-weight:800;padding:6px 14px;border-radius:999px;margin-bottom:10px;
+}
+.before-after .before .label{background:#fdecea;color:var(--danger)}
+.before-after .after .label{background:#e7f6ee;color:var(--success)}
+.before-after img{border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%}
+.before-after .arrow{display:none;font-size:2rem;color:var(--brand);align-self:center;justify-self:center}
+@media(min-width:640px){.before-after .arrow{display:flex}}
+
+/* ---------- Luxury editorial (Product 1) ---------- */
+.editorial{display:grid;gap:24px;align-items:center}
+@media(min-width:720px){.editorial{grid-template-columns:1fr 1fr}}
+.editorial-text p{font-size:1.05rem;line-height:1.8;color:var(--text-soft);margin-bottom:14px}
+.editorial-text p:last-child{margin-bottom:0}
+.editorial-img{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
+.editorial-img img{width:100%;aspect-ratio:4/5;object-fit:cover}
+
+/* ---------- Social proof - clean quote style ---------- */
+.testimonials{display:grid;gap:20px}
+.testimonial{text-align:center;padding:0 20px}
+.testimonial q{display:block;font-size:1.1rem;line-height:1.7;color:var(--text);font-style:italic;margin-bottom:12px}
+.testimonial .who{font-weight:800;color:var(--brand-dark);font-size:.95rem}
+.testimonial .city{color:var(--muted);font-size:.85rem;margin-top:2px}
+
+/* ---------- Trust strip (near CTA/form) ---------- */
+.trust-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:24px 0;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.trust-item{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--text-soft);font-weight:600}
+.trust-item svg{width:22px;height:22px;flex:none;color:var(--brand)}
+
+/* ---------- Urgency bar ---------- */
+.urgency{
+  background:linear-gradient(135deg,#7a1f2b,#a92f3f);color:#fff;
+  border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden;
+}
+.urgency .tag{display:inline-block;background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;font-size:.8rem;font-weight:800;margin-bottom:8px}
+.urgency h3{font-size:1.25rem;margin-bottom:6px}
+.urgency .big{font-size:2.2rem;font-weight:900;line-height:1}
+.urgency p{font-size:.92rem;opacity:.9}
+.stockbar{height:10px;background:rgba(255,255,255,.25);border-radius:999px;margin:14px auto 0;max-width:320px;overflow:hidden}
+.stockbar>span{display:block;height:100%;background:linear-gradient(90deg,#ffe08a,#ffc04d);border-radius:999px}
+
+/* ---------- FAQ accordion ---------- */
+.faq{display:grid;gap:10px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.faq-q{width:100%;background:none;border:none;padding:16px 18px;font-size:1rem;font-weight:800;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:right;color:var(--text)}
+.faq-q .arrow{transition:transform .25s;color:var(--brand);font-size:1.2rem;flex:none}
+.faq-item.open .arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a-inner{padding:0 18px 16px;color:var(--text-soft);font-size:.95rem}
+
+/* ---------- Order form ---------- */
+.order{background:linear-gradient(180deg,var(--bg-soft),var(--bg));}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:26px 22px}
+.form-card h2{text-align:center;color:var(--brand-dark);margin-bottom:4px;font-weight:900}
+.form-card .fc-sub{text-align:center;color:var(--text-soft);font-size:.92rem;margin-bottom:20px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:800;font-size:.95rem;margin-bottom:6px}
+.field label .req{color:var(--danger)}
+.field input,.field textarea,.field select{
+  width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--bg);font-size:1rem;transition:.2s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-light)}
+.field textarea{min-height:90px;resize:vertical}
+.hint{font-size:.8rem;color:var(--muted);margin-top:4px}
+.qty-row{display:flex;align-items:center;gap:12px}
+.qty-stepper{display:inline-flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.qty-stepper button{width:48px;height:52px;background:var(--bg);border:none;font-size:1.4rem;font-weight:800;cursor:pointer;color:var(--brand)}
+.qty-stepper input{width:64px;text-align:center;border:none;padding:0;-moz-appearance:textfield}
+.qty-stepper input::-webkit-outer-spin-button,.qty-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.form-card .btn-cta{margin-top:6px}
+.order-total{display:flex;justify-content:space-between;align-items:center;background:var(--brand-light);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:18px;font-weight:800}
+.order-total .amt{color:var(--price);font-size:1.4rem;font-weight:900}
+
+.form-msg{display:none;text-align:center;border-radius:var(--radius-sm);padding:14px;margin-top:16px;font-weight:700}
+.form-msg.ok{display:block;background:#e7f6ee;color:var(--success)}
+.form-msg.err{display:block;background:#fdecea;color:var(--danger)}
+.form-msg.hidden{display:none}
+
+/* ---------- Sticky bottom CTA (mobile-first) - always visible after hero ---------- */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:#fff;border-top:1px solid var(--border);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 -6px 20px rgba(43,35,26,.1);
+  transform:translateY(110%);transition:transform .3s ease;
+}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta .s-price{font-size:1.1rem;font-weight:900;color:var(--price)}
+.sticky-cta .s-orig{font-size:.82rem;color:var(--muted);text-decoration:line-through;display:block}
+.sticky-cta .s-label{font-size:.72rem;color:var(--muted);display:block}
+.sticky-cta .btn{flex:1;min-height:48px}
+
+/* ---------- Footer ---------- */
+footer{background:#1a1618;color:#efe6e8;padding:32px 0 80px;direction:rtl}
+.footer-grid{display:grid;gap:22px}
+footer h4{color:#fff;margin-bottom:10px;font-size:1.05rem}
+footer p,footer a{color:#cbbfc3;font-size:.93rem}
+footer .brand{color:#fff;font-weight:900;font-size:1.2rem;margin-bottom:6px}
+.footer-copy{text-align:center;color:#9a8d92;font-size:.82rem;margin-top:26px;border-top:1px solid rgba(255,255,255,.1);padding-top:20px}
+
+/* ---------- Index / splash ---------- */
+.splash-hero{min-height:68vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;background:radial-gradient(120% 90% at 50% 0%,var(--bg-soft),var(--bg))}
+.splash-hero .logo{font-size:1.9rem;font-weight:900;color:var(--brand);margin-bottom:8px}
+.splash-hero p{color:var(--text-soft);max-width:480px;margin:0 auto 28px}
+.product-links{display:grid;gap:18px;width:100%;max-width:480px;margin:0 auto}
+.product-link{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);transition:.2s}
+.product-link:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.product-link img{width:74px;height:74px;border-radius:14px;object-fit:cover;flex:none}
+.pl-info{flex:1}
+.pl-info h3{font-size:1.05rem}
+.pl-info p{color:var(--text-soft);font-size:.9rem}
+.pl-price{color:var(--price);font-weight:900;font-size:1.05rem}
+
+/* ---------- Utility ---------- */
+.center{text-align:center}
+.muted{color:var(--muted)}
+.spacer-1{height:10px}
+@media(min-width:760px){
+  .sticky-cta{max-width:640px;left:50%;right:auto;transform:translate(50%,110%);border-radius:16px;margin:0 auto}
+  .sticky-cta.show{transform:translate(50%,0)}
+  footer{padding-bottom:40px}
+}
+
+/* ============================================================
+   PRODUCT-SPECIFIC OVERRIDES (page-level <style> blocks)
+   ============================================================ */
+
+/* --- Product 1: Ring (Luxury Feminine) --- */
+.ring-page{
+  --brand:#1a1618; --brand-dark:#0d0a0b; --brand-light:#2a2426;
+  --accent:#d4a843; --bg:#fcfbf9; --bg-soft:#f5f0eb; --card:#ffffff;
+  --text:#1a1618; --text-soft:#6b5b5e; --muted:#a89a9d;
+  --border:#efe6e3; --shadow:0 10px 40px rgba(26,22,24,.06);
+  --shadow-lg:0 20px 60px rgba(26,22,24,.1);
+  --price:#b8860b; --cta-bg:linear-gradient(135deg,#e8d5a8 0%,#d4b86b 50%,#c4a04d 100%);
+}
+.ring-page .hero{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-soft) 100%)}
+.ring-page .hero-img-wrap{border-radius:28px;max-width:100%;box-shadow:var(--shadow-lg)}
+.ring-page .hero-img-wrap img{border-radius:28px;aspect-ratio:1/1}
+.ring-page .sec-head h2{color:var(--brand);font-weight:700;letter-spacing:-.01em}
+.ring-page .btn-cta{
+  background:var(--cta-bg);color:#1a1618;
+  box-shadow:0 8px 30px rgba(212,168,67,.35);
+}
+.ring-page .btn-cta:hover{filter:brightness(1.04);transform:translateY(-2px);box-shadow:0 12px 40px rgba(212,168,67,.45)}
+.ring-page .sticky-cta .s-price{color:var(--price)}
+.ring-page .form-card{border-color:var(--border);box-shadow:var(--shadow-lg)}
+.ring-page .trust-strip{border-color:var(--border);background:linear-gradient(180deg,#fff 0%,var(--bg-soft) 100%)}
+.ring-page .editorial-img{border-radius:28px;box-shadow:var(--shadow-lg)}
+.ring-page .urgency{
+  background:linear-gradient(135deg,#1a1618 0%,#2a2426 100%);
+  border:1px solid rgba(212,168,67,.2);
+}
+.ring-page .urgency .tag{background:rgba(212,168,67,.2);color:#d4a843}
+.ring-page .stockbar{background:rgba(212,168,67,.15)}
+.ring-page .stockbar>span{background:linear-gradient(90deg,#d4a843,#e8c56d)}
+.ring-page .faq-item{border-color:var(--border)}
+.ring-page .faq-q:hover{background:var(--bg-soft)}
+.ring-page .testimonial q{color:var(--text);font-weight:500}
+.ring-page .order{background:linear-gradient(180deg,var(--bg-soft) 0%,var(--bg) 100%)}
+.ring-page .order-total{background:linear-gradient(135deg,#fff 0%,var(--bg-soft) 100%);border:1px solid var(--border)}
+.ring-page .field input,.ring-page .field textarea,.ring-page .field select{
+  border-color:var(--border);background:#fff
+}
+.ring-page .field input:focus,.ring-page .field textarea:focus,.ring-page .field select:focus{
+  border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.15)
+}
+.ring-page .qty-stepper{border-color:var(--border);background:#fff}
+.ring-page .qty-stepper button{color:#d4a843;background:#fff}
+.ring-page .qty-stepper input{color:var(--text)}
+.ring-page .sticky-cta{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--border)}
+.ring-page .sticky-cta .btn{background:var(--cta-bg);color:#1a1618;box-shadow:0 6px 20px rgba(212,168,67,.3)}
+
+/* --- Product 2: Key Holder (Problem/Solution) --- */
+.key-page{
+  --brand:#b76e79; --brand-dark:#94515c; --brand-light:#f9ebed;
+  --accent:#e6b34e; --bg:#fffdfb; --bg-soft:#faf3f0; --card:#ffffff;
+  --text:#1a1618; --text-soft:#5a4d52; --muted:#9a8d92;
+  --border:#eee0dd; --shadow:0 6px 20px rgba(43,35,38,.08);
+  --shadow-lg:0 12px 40px rgba(43,35,38,.14);
+  --price:#c0392b; --cta-bg:linear-gradient(135deg,#c2707c,#a95460);
+}
+.key-page .hero{background:radial-gradient(120% 90% at 50% 0%,var(--bg-soft) 0%,var(--bg) 60%)}

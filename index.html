@@ -1,0 +1,89 @@
+<!-- ============================================================
+     ONTIME ECOM — Splash / Landing Page
+     RTL Arabic • Mobile-first
+     ============================================================ -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OVERTIME — تسوق بثقة، توصيل لباب الدار</title>
+  <meta name="description" content="OVERTIME متجر إلكتروني ليبي — منتجات عالية الجودة مع توصيل Cash-on-Delivery لجميع المدن.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    :root{
+      --brand:#b76e79; --brand-dark:#94515c; --brand-light:#f9ebed;
+      --accent:#e6b34e; --bg:#fffdfb; --bg-soft:#faf3f0;
+      --cta-bg:linear-gradient(135deg,#c2707c,#a95460);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky top mini bar -->
+  <div class="topbar">
+    <div class="brand">OVERTIME</div>
+    <a href="tel:+218912345678" class="phone" aria-label="اتصل بنا">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 19.4A18 18 0 0 1 1.6 5.4 2 2 0 0 1 4 3h3a2 2 0 0 1 2 2c0 .6-.15 1.2-.4 1.7L7.6 10a11 11 0 0 0 5.4 5.4l1.9-1.9a2 2 0 0 1 1.7-.4h3a2 2 0 0 1 2 2 2 2 0 0 1-.5 1.6z"/></svg>
+      <span>0912345678</span>
+    </a>
+  </div>
+
+  <!-- Hero splash -->
+  <section class="splash-hero">
+    <div class="logo">OVERTIME</div>
+    <h1>تسوق بثقة<br>توصيل لباب الدار</h1>
+    <p>منتجات عالية الجودة بأسعار مناسبة. نوصل لجميع مدن ليبيا — الدفع عند الاستلام.</p>
+    <div class="product-links">
+      <a href="/product1" class="product-link">
+        <img src="/assets/images/product1/hero.webp" alt="خاتم كلاسيكي" width="200" height="200" loading="lazy">
+        <div class="pl-info">
+          <h3>خاتم كلاسيكي فاخر</h3>
+          <p>تصميم كلاسيكي — مناسب لكل المناسبات</p>
+        </div>
+        <div class="pl-price">150 د.ل</div>
+      </a>
+      <a href="/product2" class="product-link">
+        <img src="/assets/images/product2/hero.webp" alt="صندوق مفاتيح جداري" width="200" height="200" loading="lazy">
+        <div class="pl-info">
+          <h3>صندوق مفاتيح جداري</h3>
+          <p>تصميم عصري — ينظم مفاتيحك بسهولة</p>
+        </div>
+        <div class="pl-price">95 د.ل</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">OVERTIME</div>
+          <p>متجر إلكتروني ليبي — توصيل Cash-on-Delivery لجميع المدن.</p>
+        </div>
+        <div>
+          <h4>تواصل معنا</h4>
+          <p><a href="tel:+218912345678">📞 0912345678</a></p>
+          <p><a href="https://wa.me/218912345678" target="_blank" rel="noopener">💬 واتساب</a></p>
+          <p><a href="mailto:info@overtime.ly">✉️ info@overtime.ly</a></p>
+        </div>
+        <div>
+          <h4>الدفع والتوصيل</h4>
+          <p>الدفع عند الاستلام — Cash on Delivery</p>
+          <p>توصيل لجميع ليبيا خلال 2-5 أيام عمل</p>
+        </div>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> OVERTIME. جميع الحقوق محفوظة.</div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
