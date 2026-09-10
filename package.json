@@ -1,0 +1,9 @@
+{
+  "name": "overtime-ecom",
+  "version": "1.0.0",
+  "description": "Static e-commerce site",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  }
+}

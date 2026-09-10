@@ -40,7 +40,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
-  font-family:'Cairo','Tajawal',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
+  font-family:'Tajawal','Amiri',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.7;
