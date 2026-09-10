@@ -5,7 +5,7 @@
    ============================================================ */
 
 /* ---------- Configurable variables (edit these) ---------- */
-const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyhNiTSoA8RKsQzgh_eJAOxMgo8RbbRkqRNO_Lebljs74727OfweS2rLi_wnOuccVcgnQ/exec';
+const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyRg-g6PzdDgThndMEd5x1wKsZtRmFApkF308avmGFacMhn5002URGkt1RUgX24n5ArUQ/exec';
 const PIXEL_ID = 'PIXEL_ID_HERE';
 
 /* ---------- Meta Pixel (injected if PIXEL_ID is replaced) ---------- */
