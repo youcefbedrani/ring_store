@@ -12,6 +12,7 @@ const CAPI_ACCESS_TOKEN = 'EAATzTbBM3VgBSRdDk8eX3ao56N74n1QeCtVc0ZCT8a9EmWwWnw7d
 /* ---------- Meta Pixel (injected if PIXEL_ID is replaced) ---------- */
 function loadPixel() {
   if (PIXEL_ID === 'PIXEL_ID_HERE' || !PIXEL_ID) return;
+  if (window.fbq && window.fbq.loaded) return;
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -24,33 +25,51 @@ function loadPixel() {
   fbq('track', 'PageView');
 }
 
-function firePixelLead(productName) {
+function firePixelLead(productName, eventId, value) {
   if (PIXEL_ID === 'PIXEL_ID_HERE' || !PIXEL_ID || typeof fbq === 'undefined') return;
-  fbq('track', 'Lead', { content_name: productName });
+  const leadData = {
+    content_name: productName,
+    currency: 'LYD',
+    value: value || 167
+  };
+  if (eventId) {
+    fbq('track', 'Lead', leadData, { eventID: eventId });
+  } else {
+    fbq('track', 'Lead', leadData);
+  }
 }
 
 /* ---------- Conversions API (server-side) ---------- */
-async function fireCAPIEvent(userData, customData) {
+async function fireCAPIEvent(userData, customData, eventId) {
   try {
-    const payload = {
-      data: [{
+    const [emHash, phHash, fnHash, lnHash, ctHash] = await Promise.all([
+      hashString(userData.email || ''),
+      hashString(userData.phone || ''),
+      hashString(userData.firstName || ''),
+      hashString(userData.lastName || ''),
+      hashString(userData.city || '')
+    ]);
+
+    const eventItem = {
+      event_name: 'Lead',
+      event_time: Math.floor(Date.now() / 1000),
+      action_source: 'website',
+      user_data: {
+        em: emHash ? [emHash] : [],
+        ph: phHash ? [phHash] : [],
+        fn: fnHash ? [fnHash] : [],
+        ln: lnHash ? [lnHash] : [],
+        ct: ctHash ? [ctHash] : []
+      },
+      custom_data: customData || {},
+      original_event_data: {
         event_name: 'Lead',
-        event_time: Math.floor(Date.now() / 1000),
-        action_source: 'website',
-        user_data: {
-          em: [hashString(userData.email || '')],
-          ph: userData.phone ? [hashString(userData.phone)] : [],
-          fn: userData.firstName ? [hashString(userData.firstName)] : [],
-          ln: userData.lastName ? [hashString(userData.lastName)] : [],
-          ct: userData.city ? [hashString(userData.city)] : []
-        },
-        custom_data: customData || {},
-        original_event_data: {
-          event_name: 'Lead',
-          event_time: Math.floor(Date.now() / 1000)
-        }
-      }]
+        event_time: Math.floor(Date.now() / 1000)
+      }
     };
+    if (eventId) eventItem.event_id = eventId;
+
+    const payload = { data: [eventItem] };
 
     await fetch(`https://graph.facebook.com/v21.0/${PIXEL_ID}/events?access_token=${CAPI_ACCESS_TOKEN}`, {
       method: 'POST',
@@ -129,7 +148,25 @@ function initLightbox() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 }
 
-/* ---------- Quantity stepper ---------- */
+/* ---------- Quantity stepper & price calculation ---------- */
+function getUnitPrice() {
+  const priceEl = document.querySelector('[data-sale-price]');
+  if (priceEl) {
+    const num = parseInt(priceEl.textContent.replace(/[^\d]/g, ''), 10);
+    if (!isNaN(num) && num > 0) return num;
+  }
+  return 167;
+}
+
+function updateOrderTotal() {
+  const qtyInput = document.getElementById('quantity');
+  const totalSpan = document.querySelector('[data-sale-price-total]');
+  if (qtyInput && totalSpan) {
+    const qty = parseInt(qtyInput.value, 10) || 1;
+    totalSpan.textContent = (qty * getUnitPrice()).toString();
+  }
+}
+
 function initQtyStepper() {
   const stepper = document.querySelector('.qty-stepper');
   if (!stepper) return;
@@ -137,14 +174,25 @@ function initQtyStepper() {
   const dec = stepper.querySelector('[data-dec]');
   const inc = stepper.querySelector('[data-inc]');
   const clamp = v => Math.max(1, Math.min(99, v));
-  dec.addEventListener('click', () => input.value = clamp(+input.value - 1));
-  inc.addEventListener('click', () => input.value = clamp(+input.value + 1));
-  input.addEventListener('change', () => input.value = clamp(+input.value || 1));
+  dec.addEventListener('click', () => { input.value = clamp(+input.value - 1); updateOrderTotal(); });
+  inc.addEventListener('click', () => { input.value = clamp(+input.value + 1); updateOrderTotal(); });
+  input.addEventListener('change', () => { input.value = clamp(+input.value || 1); updateOrderTotal(); });
 }
 
-/* ---------- Libyan phone validation ---------- */
+/* ---------- Libyan phone normalization & validation ---------- */
+function normalizeArabicNumerals(str) {
+  return (str || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+}
+
+function normalizeLibyanPhone(phone) {
+  let cleaned = normalizeArabicNumerals(phone).replace(/[\s\-\(\)\.]/g, '');
+  if (cleaned.startsWith('00218')) cleaned = '+218' + cleaned.slice(5);
+  else if (cleaned.startsWith('218')) cleaned = '+218' + cleaned.slice(3);
+  return cleaned;
+}
+
 function isValidLibyanPhone(phone) {
-  const cleaned = phone.replace(/[\s\-]/g, '');
+  const cleaned = normalizeLibyanPhone(phone);
   return /^(?:\+218|0)?(?:91|92|93|94|95|96|97|98|99)\d{7}$/.test(cleaned);
 }
 
@@ -158,23 +206,56 @@ async function initOrderForm(productName) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
     msg.className = 'form-msg';
-    msg.style.display = 'block';
+    msg.style.display = 'none';
 
-    const phone = form.querySelector('[name="phone"]').value.trim();
-    if (!isValidLibyanPhone(phone)) {
-      msg.classList.add('err');
-      msg.textContent = 'يرجى إدخال رقم هاتف ليبي صحيح (مثال: 0912345678)';
+    const fullName = form.querySelector('[name="full_name"]')?.value.trim() || '';
+    const rawPhone = form.querySelector('[name="phone"]')?.value.trim() || '';
+    const city = form.querySelector('[name="city"]')?.value.trim() || '';
+    const address = form.querySelector('[name="address"]')?.value.trim() || '';
+    const quantity = parseInt(form.querySelector('[name="quantity"]')?.value || '1', 10);
+    const notes = form.querySelector('[name="notes"]')?.value.trim() || '';
+
+    if (!fullName) {
+      msg.className = 'form-msg err';
+      msg.style.display = 'block';
+      msg.textContent = 'يرجى إدخال الاسم الكامل.';
       return;
     }
 
+    if (!isValidLibyanPhone(rawPhone)) {
+      msg.className = 'form-msg err';
+      msg.style.display = 'block';
+      msg.textContent = 'يرجى إدخال رقم هاتف ليبي صحيح (مثال: 0912345678).';
+      return;
+    }
+
+    if (!city) {
+      msg.className = 'form-msg err';
+      msg.style.display = 'block';
+      msg.textContent = 'يرجى إدخال المدينة.';
+      return;
+    }
+
+    if (!address) {
+      msg.className = 'form-msg err';
+      msg.style.display = 'block';
+      msg.textContent = 'يرجى إدخال العنوان بالتفصيل.';
+      return;
+    }
+
+    const phone = normalizeLibyanPhone(rawPhone);
+    const unitPrice = getUnitPrice();
+    const totalPrice = quantity * unitPrice;
+
     const payload = {
       product_name: productName,
-      full_name: form.querySelector('[name="full_name"]').value.trim(),
+      full_name: fullName,
       phone: phone,
-      city: form.querySelector('[name="city"]').value.trim(),
-      address: form.querySelector('[name="address"]').value.trim(),
-      quantity: parseInt(form.querySelector('[name="quantity"]').value || '1', 10),
-      notes: form.querySelector('[name="notes"]').value.trim(),
+      city: city,
+      address: address,
+      quantity: quantity,
+      total_price: totalPrice + ' LYD',
+      notes: notes,
       submitted_at: new Date().toISOString()
     };
 
@@ -188,28 +269,38 @@ async function initOrderForm(productName) {
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('Network error');
-      msg.classList.add('ok');
+
+      msg.className = 'form-msg ok';
+      msg.style.display = 'block';
       msg.textContent = '✅ تم استلام طلبك بنجاح! سنتصل بك قريباً لتأكيد التوصيل.';
       form.reset();
-      firePixelLead(productName);
-      /* Fire server-side CAPI event with user data for better matching */
-      const fullName = payload.full_name;
+      updateOrderTotal();
+
+      /* Generate unique eventID for deduplication */
+      const eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+
+      /* Browser Pixel */
+      firePixelLead(productName, eventId, totalPrice);
+
+      /* Server-side CAPI event */
       const nameParts = fullName.split(' ');
       fireCAPIEvent(
         {
-          phone: payload.phone,
+          phone: phone,
           firstName: nameParts[0] || '',
           lastName: nameParts.slice(1).join(' ') || '',
-          city: payload.city
+          city: city
         },
-        { content_name: productName, currency: 'LYD', value: 199 }
+        { content_name: productName, currency: 'LYD', value: totalPrice },
+        eventId
       );
     } catch (err) {
-      msg.classList.add('err');
+      msg.className = 'form-msg err';
+      msg.style.display = 'block';
       msg.textContent = '⚠️ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'أكّد الطلب الآن';
+      submitBtn.textContent = 'أكّد الحجز الآن';
     }
   });
 }
