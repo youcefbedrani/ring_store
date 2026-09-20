@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
 
   <!-- Meta Pixel base code (same pixel as product 1) -->
   <script>
@@ -37,7 +37,12 @@
     .hero-note{font-size:.85rem;color:var(--muted);margin-top:10px}
 
     .lead-p{text-align:center;color:var(--text-soft);max-width:520px;margin:-10px auto 26px;font-size:1.02rem}
-    .before-after img{aspect-ratio:1/1;object-fit:cover}
+    .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .ba figure{position:relative;margin:0;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+    .ba img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .ba figcaption{position:absolute;top:10px;right:10px;color:#fff;font-weight:800;font-size:.85rem;padding:4px 14px;border-radius:999px}
+    .ba .bad{background:var(--danger)}
+    .ba .good{background:var(--success)}
 
     .split{display:grid;gap:24px;align-items:center}
     @media(min-width:720px){.container.wide{max-width:900px}.split{grid-template-columns:1fr 1fr}}
@@ -84,10 +89,10 @@
       <h1>غطي علبة الأسلاك المكشوفة بقطعة ديكور تحبها عيونك</h1>
       <p class="h-sub">خزانة جدارية بتصميم البيوت والشجرة، بابين بزخرفة مفرغة، وخطاطيف ذهبية لمفاتيحك. تركبها في دقائق وتخلي مدخل بيتك مرتب وأنيق.</p>
       <div class="hero-img-wrap">
-        <img src="/assets/images/product2/hero.webp" alt="خزانة مفاتيح جدارية بتصميم بيوت وشجرة معلقة على الحائط" width="800" height="800" loading="eager" fetchpriority="high">
+        <img src="../assets/images/product2/hero.webp" alt="خزانة مفاتيح جدارية بتصميم بيوت وشجرة معلقة على الحائط" width="800" height="800" loading="eager" fetchpriority="high">
       </div>
       <div class="price-row">
-        <span class="price-sale" data-sale-price>149 د.ل</span>
+        <span class="price-sale" data-sale-price>199 د.ل</span>
         <span class="price-original" data-original-price>249 د.ل</span>
       </div>
       <div class="hero-chips">
@@ -104,19 +109,17 @@
   <section>
     <div class="container">
       <div class="sec-head">
-        <h2>علبة الأسلاك المكشوفة تفسد شكل الحائط</h2>
+        <h2>قبل وبعد</h2>
       </div>
-      <p class="lead-p">أسلاك، قواطع، وأنابيب ظاهرة في مدخل البيت. والحل مش دهان ولا نجارة — قطعة وحدة تغطي وتزين.</p>
-      <div class="before-after">
-        <div class="side before">
-          <span class="label">قبل</span>
-          <img src="/assets/images/product2/g2.webp" alt="علبة أسلاك وقواطع كهرباء مكشوفة على الحائط" width="600" height="600" loading="lazy">
-        </div>
-        <div class="arrow">←</div>
-        <div class="side after">
-          <span class="label">بعد</span>
-          <img src="/assets/images/product2/g3.webp" alt="خزانة مفاتيح جدارية بيضاء مثبتة على الحائط بعد التركيب" width="600" height="600" loading="lazy">
-        </div>
+      <div class="ba">
+        <figure>
+          <img src="../assets/images/product2/g2.webp" alt="علبة الكهرباء على الحائط قبل التغطية" width="600" height="600" loading="lazy">
+          <figcaption class="bad">قبل</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/images/product2/g3.webp" alt="الخزانة مركبة وتغطي الحائط" width="600" height="600" loading="lazy">
+          <figcaption class="good">بعد</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -126,7 +129,7 @@
     <div class="container wide">
       <div class="split">
         <div class="split-img">
-          <img src="/assets/images/product2/g1.webp" alt="خزانة مفاتيح بتصميم بيوت وشجرة فوق طاولة مدخل" width="600" height="600" loading="lazy">
+          <img src="../assets/images/product2/g1.webp" alt="خزانة مفاتيح بتصميم بيوت وشجرة فوق طاولة مدخل" width="600" height="600" loading="lazy">
         </div>
         <div>
           <h3>حل واحد بدل مشكلتين</h3>
@@ -156,7 +159,7 @@
           </ul>
         </div>
         <div class="split-img land">
-          <img src="/assets/images/product2/g4.webp" alt="داخل الخزانة: خطاطيف ذهبية معلق عليها مفاتيح وميدالية بيت" width="600" height="600" loading="lazy">
+          <img src="../assets/images/product2/g4.webp" alt="داخل الخزانة: خطاطيف ذهبية معلق عليها مفاتيح وميدالية بيت" width="600" height="600" loading="lazy">
         </div>
       </div>
       <div class="cta-block">
@@ -204,10 +207,10 @@
         <p>اضغطي على أي صورة للتكبير</p>
       </div>
       <div class="gallery">
-        <img src="/assets/images/product2/g1.webp" alt="الخزانة فوق طاولة المدخل" width="600" height="600" loading="lazy">
-        <img src="/assets/images/product2/g4.webp" alt="الخزانة مفتوحة من الداخل" width="600" height="600" loading="lazy">
-        <img src="/assets/images/product2/g3.webp" alt="الخزانة مركبة على الحائط" width="600" height="600" loading="lazy">
-        <img src="/assets/images/product2/g5.webp" alt="تفاصيل الخطاطيف الذهبية والمفاتيح" width="600" height="600" loading="lazy">
+        <img src="../assets/images/product2/g1.webp" alt="الخزانة فوق طاولة المدخل" width="600" height="600" loading="lazy">
+        <img src="../assets/images/product2/g4.webp" alt="الخزانة مفتوحة من الداخل" width="600" height="600" loading="lazy">
+        <img src="../assets/images/product2/g3.webp" alt="الخزانة مركبة على الحائط" width="600" height="600" loading="lazy">
+        <img src="../assets/images/product2/g5.webp" alt="تفاصيل الخطاطيف الذهبية والمفاتيح" width="600" height="600" loading="lazy">
       </div>
     </div>
   </section>
@@ -252,7 +255,7 @@
       <div class="urgency">
         <span class="tag">🔥 عرض محدود</span>
         <h3>خصم اليوم على الخزانة</h3>
-        <p class="big"><span data-sale-price-urgency>149</span> د.ل</p>
+        <p class="big"><span data-sale-price-urgency>199</span> د.ل</p>
         <p style="margin-top:6px">بدل <span style="text-decoration:line-through;opacity:.85">249</span> د.ل</p>
         <div class="stockbar" aria-label="المخزون المتبقي"><span style="width:25%"></span></div>
         <p style="margin-top:8px;font-size:.85rem;opacity:.95">باقي <span data-stock-left>12</span> قطعة فقط</p>
@@ -332,7 +335,7 @@
           </div>
           <div class="order-total">
             <span>الإجمالي</span>
-            <span class="amt"><span data-sale-price-total>149</span> د.ل</span>
+            <span class="amt"><span data-sale-price-total>199</span> د.ل</span>
           </div>
           <button type="submit" class="btn btn-cta">أكّدي الطلب الآن</button>
           <div class="form-msg hidden" id="form-msg"></div>
@@ -358,7 +361,7 @@
   <div class="sticky-cta" aria-hidden="true">
     <div>
       <span class="s-label">السعر اليوم</span>
-      <span class="s-price"><span data-sale-price-sticky>149</span> د.ل</span>
+      <span class="s-price"><span data-sale-price-sticky>199</span> د.ل</span>
       <span class="s-orig"><span data-original-price-sticky>249</span> د.ل</span>
     </div>
     <a href="#order" class="btn btn-cta" data-jump="#order">اطلبيها الآن 🛍️</a>
@@ -370,7 +373,7 @@
     <img src="" alt="">
   </div>
 
-  <script src="/assets/js/main.js" defer></script>
+  <script src="../assets/js/main.js" defer></script>
   <script>
     /* Extra Meta Pixel events: ViewContent on load, InitiateCheckout when the form is first touched */
     document.addEventListener('DOMContentLoaded', function () {
