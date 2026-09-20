@@ -1,7 +1,7 @@
 /* ============================================================
    ONTIME ECOM — Shared JS
    Sticky CTA • FAQ accordion • Lightbox • Form → Google Sheet
-   Meta Pixel Lead event
+   Meta Pixel Purchase event (browser + CAPI, deduplicated)
    ============================================================ */
 
 /* ---------- Configurable variables (edit these) ---------- */
@@ -25,17 +25,20 @@ function loadPixel() {
   fbq('track', 'PageView');
 }
 
-function firePixelLead(productName, eventId, value) {
+function firePixelPurchase(productName, eventId, value, quantity) {
   if (PIXEL_ID === 'PIXEL_ID_HERE' || !PIXEL_ID || typeof fbq === 'undefined') return;
   const leadData = {
     content_name: productName,
+    content_type: 'product',
+    contents: [{ id: productName, quantity: quantity || 1 }],
+    num_items: quantity || 1,
     currency: 'LYD',
     value: value || 167
   };
   if (eventId) {
-    fbq('track', 'Lead', leadData, { eventID: eventId });
+    fbq('track', 'Purchase', leadData, { eventID: eventId });
   } else {
-    fbq('track', 'Lead', leadData);
+    fbq('track', 'Purchase', leadData);
   }
 }
 
@@ -51,9 +54,10 @@ async function fireCAPIEvent(userData, customData, eventId) {
     ]);
 
     const eventItem = {
-      event_name: 'Lead',
+      event_name: 'Purchase',
       event_time: Math.floor(Date.now() / 1000),
       action_source: 'website',
+      event_source_url: location.href,
       user_data: {
         em: emHash ? [emHash] : [],
         ph: phHash ? [phHash] : [],
@@ -63,7 +67,7 @@ async function fireCAPIEvent(userData, customData, eventId) {
       },
       custom_data: customData || {},
       original_event_data: {
-        event_name: 'Lead',
+        event_name: 'Purchase',
         event_time: Math.floor(Date.now() / 1000)
       }
     };
@@ -259,6 +263,7 @@ async function initOrderForm(productName) {
       submitted_at: new Date().toISOString()
     };
 
+    const submitLabel = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'جاري الإرسال...';
 
@@ -277,10 +282,10 @@ async function initOrderForm(productName) {
       updateOrderTotal();
 
       /* Generate unique eventID for deduplication */
-      const eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+      const eventId = 'purchase_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
 
       /* Browser Pixel */
-      firePixelLead(productName, eventId, totalPrice);
+      firePixelPurchase(productName, eventId, totalPrice, quantity);
 
       /* Server-side CAPI event */
       const nameParts = fullName.split(' ');
@@ -291,7 +296,7 @@ async function initOrderForm(productName) {
           lastName: nameParts.slice(1).join(' ') || '',
           city: city
         },
-        { content_name: productName, currency: 'LYD', value: totalPrice },
+        { content_name: productName, content_type: 'product', num_items: quantity, currency: 'LYD', value: totalPrice },
         eventId
       );
     } catch (err) {
@@ -300,7 +305,7 @@ async function initOrderForm(productName) {
       msg.textContent = '⚠️ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'أكّد الحجز الآن';
+      submitBtn.textContent = submitLabel;
     }
   });
 }
